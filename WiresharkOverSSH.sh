@@ -42,13 +42,12 @@ else
         USER=$4
 fi
 
-
 if [[ -z $5 ]]; then
 	echo "No SSH key supplied running without"
 	echo "TCPDUMPing from host: $HOST, Interface: $IFACE, Port: $PORT"
-	ssh -p$PORT $USER@$HOST tcpdump -i $IFACE -U -s0 -w - "not port $PORT" | wireshark -k -i -
+	ssh -p$PORT $USER@$HOST tcpdump -i $IFACE -U -n -s0 -w - "not port $PORT" | wireshark -k -i -
 else
 	KEYPATH=$5
 	echo "using specified key"
-	ssh -p$PORT -i $KEYPATH $USER@$HOST tcpdump -i $IFACE -U -s0 -w - "not port $PORT" | wireshark -k -i -
+	ssh -p$PORT -i $KEYPATH $USER@$HOST tcpdump -i $IFACE -U -n -s0 -w - "not port $PORT" | wireshark -k -i -
 fi
